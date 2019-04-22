@@ -1,15 +1,18 @@
 #include "agent.h"
+#include "items/weapons/paperWeapon.h"
+#include "items/weapons/scrissorWeapon.h"
+#include "items/weapons/rockWeapon.h"
+#include "items/armours/armour.h"
+
 #include <iostream>
 
-Agent::Agent(char visibility, char regenerationPercent, char moveRangePercent, char line, char column, int label) {
+Agent::Agent(char visibility, char moveRangePercent, char line, char column, int label) {
     this->hp = MAX_HP;
-    this->regenerationPercent = regenerationPercent;
     this->visibility = visibility;
     this->moveRangePercent = moveRangePercent;
     this->line = line;
     this->column = column;
     this->label = label;
-    // TODO: add armour and weapon
 }
 
 Agent::~Agent() {
@@ -20,7 +23,6 @@ Agent::Agent() {
 
 Agent::Agent(const Agent &agent2) {
     this->hp = agent2.hp;
-    this->regenerationPercent = agent2.regenerationPercent;
     this->visibility = agent2.visibility;
     this->moveRangePercent = agent2.moveRangePercent;
     this->line = agent2.line;
@@ -99,6 +101,17 @@ bool Agent::isAlive() const {
     return this->hp > 0;
 }
 
-void Agent::shoot(Agent *enemy) {
+void Agent::takeDamage(int damage) {
+    this->hp -= damage;
+}
 
-} 
+int Agent::takeArmourHit(Weapon *weapon) {
+    if (PaperWeapon *p = dynamic_cast<PaperWeapon*>(weapon)) {
+        return this->armour->absorb(p);
+    } else if (ScrissorWeapon *p = dynamic_cast<ScrissorWeapon*>(weapon)) {
+        return this->armour->absorb(p);
+    } else if (RockWeapon *p = dynamic_cast<RockWeapon*>(weapon)) {
+        return this->armour->absorb(p);
+    }
+    throw "Armour not defined";
+}

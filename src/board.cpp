@@ -3,6 +3,9 @@
 #include <cstdlib>
 #include <iostream>
 
+
+// Felt like the game is strongly coupled with the board, so it would make sense to have the same class
+
 using namespace std;
 
 Board::Board(char rows, char cols, char agentsCount) {
@@ -31,7 +34,6 @@ Board::Board(char rows, char cols, char agentsCount) {
             // randomly generate agents stats
             agents[placedAgents] = Agent(
                 1, // visibility
-                (char)(rand() % 100),                   // regeneration percent
                 100,                   // move range percent
                 (char)line,
                 (char)col,

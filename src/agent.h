@@ -1,11 +1,10 @@
-#include "items/weapons/weapon.h"
-#include "items/armours/armour.h"
+class Armour;
+class Weapon;
 
 class Agent {
     static const int MAX_HP = 100;
     int hp;
     int label; // a different number assigned to each agent.
-    char regenerationPercent;
     char visibility;
     char moveRangePercent;
     char line;
@@ -14,14 +13,15 @@ class Agent {
     char maxColumn; // max movement column.
     Armour* armour;
     Weapon* weapon;
-    // void shoot() const;
     char getVisibility() const;
+    void getShoot(Agent agent); 
 public:
     static const int MAX_VISIBILITY = 20;
-    Agent(char visibility, char regenerationPercent, char moveRangePercent, char line, char column, int label);
+    Agent(char visibility, char moveRangePercent, char line, char column, int label);
     ~Agent();
     Agent();
     Agent(const Agent &agent2);
+
     char getMaxVisibilityLine(char maxLine) const;
     char getMaxVisibilityCol(char maxCol) const;
     char getMinVisibilityLine() const;
@@ -37,6 +37,8 @@ public:
     void setPosition(char line, char column);
 
     bool isAlive() const;
-    void regenerate();
     void shoot(Agent *enemy);    
+
+    void takeDamage(int damage);
+    int takeArmourHit(Weapon *);
 };
